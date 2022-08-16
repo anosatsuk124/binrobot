@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + TS</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <div id="settings">
+        <label for="player-select">
+            Choose your player.
+        </label>
+        <select name="players" id="player-select">
+            <option value="">-- Please select a pleyer. --</option>
+            <option value="red">Red Tank</option>
+            <option value="dark">Dark Tank</option>
+            <option value="green">Green Tank</option>
+            <option value="sand">Sand Tank</option>
+            <option value="blue">Blue Tank</option>
+        </select>
+    </div>
+    <input type="button" onclick={location.reload();} value="Reload" />
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
