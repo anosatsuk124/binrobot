@@ -14,6 +14,8 @@ interface Player {
     color: string | undefined;
     player_direction: number;
     player_velocity: number;
+    x: number;
+    y: number;
 }
 
 interface Container {
@@ -21,7 +23,7 @@ interface Container {
     container: PIXI.Container<PIXI.DisplayObject>;
 }
 
-const inRoomPlayers = new Array();
+// const inRoomPlayers = new Array();
 const inRoomContainer: Array<Container> = new Array();
 const inRoomIds: Array<string> = new Array();
 
@@ -63,7 +65,7 @@ const controllPlayer = (player: Player) => {
         console.log(`init container: ${container.width}`);
     }
 
-    inRoomContainer.forEach((container) => {
+    for (const container of inRoomContainer) {
         if (container.id == player.id) {
             console.log(`Player: ${player.id}`);
             console.log(`Container: ${container.id}`);
@@ -81,7 +83,7 @@ const controllPlayer = (player: Player) => {
                 });
             }
         }
-    });
+    }
 };
 
 const myId = uuidv4();
@@ -105,14 +107,18 @@ document
             id: myId,
             color: playerColor,
             player_direction: 0,
-            player_velocity: 0
+            player_velocity: 0,
+            x: 0,
+            y: 0
         };
 
         controllPlayer(player);
         inRoomIds.push(myId);
-        setInterval(() => {
+        const loop = () => {
             ws.send(JSON.stringify(player));
-        }, 10);
+            window.requestAnimationFrame(loop);
+        };
+        window.requestAnimationFrame(loop);
     });
 
 export { app };
