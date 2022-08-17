@@ -9,7 +9,7 @@ const app = new PIXI.Application({
     resolution: window.devicePixelRatio || 1
 });
 
-const addPlayer = (color: string | undefined) => {
+const spawnPlayer = (color: string | undefined) => {
     const player = new PIXI.Container();
 
     const texture = (() => {
@@ -64,7 +64,7 @@ ws.onmessage = async (e) => {
     console.log(`object: ${object}`);
 
     if (!inRoom.includes(id)) {
-        addPlayer(color);
+        spawnPlayer(color);
         inRoom.push(id);
     }
 };
@@ -80,7 +80,7 @@ document
             .querySelector<HTMLDivElement>('#settings')
             ?.querySelector<HTMLSelectElement>('#player-select')?.value;
 
-        addPlayer(playerColor);
+        spawnPlayer(playerColor);
         inRoom.push(myId);
         ws.send(
             JSON.stringify({
