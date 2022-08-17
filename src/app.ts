@@ -42,6 +42,8 @@ const addPlayer = (color: string | undefined) => {
         // use delta to create frame-independent transform
         if (player.x + player.width < app.screen.width) {
             player.x += 1 * delta;
+        } else {
+            player.x = 0;
         }
     });
 
