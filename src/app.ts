@@ -1,7 +1,6 @@
 import * as PIXI from 'pixi.js';
 import { ws } from './websocket';
 import { v4 as uuidv4 } from 'uuid';
-import { Container } from 'pixi.js';
 
 const app = new PIXI.Application({
     width: 380,
@@ -70,7 +69,7 @@ const controllPlayer = (player: Player) => {
             console.log(`Container: ${container.id}`);
             if (container != null) {
                 const currentPlayer = container.container;
-                app.ticker.add((delta: number) => {
+                app.ticker.addOnce((delta: number) => {
                     if (
                         currentPlayer.x + currentPlayer.width <
                         app.screen.width
@@ -90,9 +89,7 @@ const myId = uuidv4();
 ws.onmessage = async (e) => {
     const text = await e.data.text();
     const player: Player = JSON.parse(text);
-    if (player.id != myId) {
-        controllPlayer(player);
-    }
+    controllPlayer(player);
 };
 
 document
@@ -113,7 +110,9 @@ document
 
         controllPlayer(player);
         inRoomIds.push(myId);
-        ws.send(JSON.stringify(player));
+        setInterval(() => {
+            ws.send(JSON.stringify(player));
+        }, 10);
     });
 
 export { app };
