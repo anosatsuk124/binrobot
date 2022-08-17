@@ -18,6 +18,7 @@
     },
     "dependencies": {
         "@tauri-apps/api": "^1.0.2",
+        "dotenv": "^16.0.1",
         "pixi.js": "^6.5.1"
     }
 }
