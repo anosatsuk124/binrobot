@@ -58,8 +58,8 @@ ws.onmessage = async (e) => {
 
     const id = object.id;
     const color = object.color;
-    const player_x = object.player_x;
-    const player_y = object.player_y;
+    // const player_x = object.player_x;
+    // const player_y = object.player_y;
 
     console.log(`object: ${object}`);
 
