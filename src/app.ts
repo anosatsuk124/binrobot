@@ -1,6 +1,7 @@
 import * as PIXI from 'pixi.js';
 import { ws } from './websocket';
 import { v4 as uuidv4 } from 'uuid';
+import { Container } from 'pixi.js';
 
 const app = new PIXI.Application({
     width: 380,
@@ -9,67 +10,90 @@ const app = new PIXI.Application({
     resolution: window.devicePixelRatio || 1
 });
 
-const spawnPlayer = (color: string | undefined) => {
-    const player = new PIXI.Container();
+interface Player {
+    id: string;
+    color: string | undefined;
+    player_direction: number;
+    player_velocity: number;
+}
 
-    const texture = (() => {
-        if (color == 'red') {
+interface Container {
+    id: string;
+    container: PIXI.Container<PIXI.DisplayObject>;
+}
+
+const inRoomPlayers = new Array();
+const inRoomContainer: Array<Container> = new Array();
+const inRoomIds: Array<string> = new Array();
+
+const controllPlayer = (player: Player) => {
+    if (!inRoomIds.includes(player.id)) {
+        const container = new PIXI.Container();
+        const color = player.color;
+
+        const texture = (() => {
+            if (color == 'red') {
+                return PIXI.Texture.from('/tank_red.png');
+            } else if (color == 'blue') {
+                return PIXI.Texture.from('/tank_blue.png');
+            } else if (color == 'dark') {
+                return PIXI.Texture.from('/tank_dark.png');
+            } else if (color == 'green') {
+                return PIXI.Texture.from('/tank_green.png');
+            } else if (color == 'sand') {
+                return PIXI.Texture.from('/tank_sand.png');
+            }
+
             return PIXI.Texture.from('/tank_red.png');
-        } else if (color == 'blue') {
-            return PIXI.Texture.from('/tank_blue.png');
-        } else if (color == 'dark') {
-            return PIXI.Texture.from('/tank_dark.png');
-        } else if (color == 'green') {
-            return PIXI.Texture.from('/tank_green.png');
-        } else if (color == 'sand') {
-            return PIXI.Texture.from('/tank_sand.png');
-        }
+        })();
 
-        return PIXI.Texture.from('/tank_red.png');
-    })();
+        const tank = new PIXI.Sprite(texture);
+        tank.anchor.set(0.5);
+        tank.x = 40;
+        tank.y = 40;
+        container.addChild(tank);
 
-    const tank = new PIXI.Sprite(texture);
-    tank.anchor.set(0.5);
-    tank.x = 40;
-    tank.y = 40;
-    player.addChild(tank);
+        container.scale.x = container.scale.y = 0.15;
+        app.stage.addChild(container);
+        inRoomIds.push(player.id);
+        console.log(`init player: ${player.id}`);
+        inRoomContainer.push({
+            id: player.id,
+            container: container
+        });
+        console.log(`init container: ${container.width}`);
+    }
 
-    player.scale.x = player.scale.y = 0.15;
-
-    // Listen for animate update
-    app.ticker.add((delta: number) => {
-        // rotate the container!
-        // use delta to create frame-independent transform
-        if (player.x + player.width < app.screen.width) {
-            player.x += 1 * delta;
-        } else {
-            player.x = 0;
+    inRoomContainer.forEach((container) => {
+        if (container.id == player.id) {
+            console.log(`Player: ${player.id}`);
+            console.log(`Container: ${container.id}`);
+            if (container != null) {
+                const currentPlayer = container.container;
+                app.ticker.add((delta: number) => {
+                    if (
+                        currentPlayer.x + currentPlayer.width <
+                        app.screen.width
+                    ) {
+                        currentPlayer.x += 1 * delta;
+                    } else {
+                        currentPlayer.x = 0;
+                    }
+                });
+            }
         }
     });
-
-    app.stage.addChild(player);
-};
-
-const inRoom = new Array();
-
-ws.onmessage = async (e) => {
-    const text = await e.data.text();
-    const object = JSON.parse(text);
-
-    const id = object.id;
-    const color = object.color;
-    // const player_x = object.player_x;
-    // const player_y = object.player_y;
-
-    console.log(`object: ${object}`);
-
-    if (!inRoom.includes(id)) {
-        spawnPlayer(color);
-        inRoom.push(id);
-    }
 };
 
 const myId = uuidv4();
+
+ws.onmessage = async (e) => {
+    const text = await e.data.text();
+    const player: Player = JSON.parse(text);
+    if (player.id != myId) {
+        controllPlayer(player);
+    }
+};
 
 document
     .querySelector<HTMLButtonElement>('#start')
@@ -80,16 +104,16 @@ document
             .querySelector<HTMLDivElement>('#settings')
             ?.querySelector<HTMLSelectElement>('#player-select')?.value;
 
-        spawnPlayer(playerColor);
-        inRoom.push(myId);
-        ws.send(
-            JSON.stringify({
-                id: myId,
-                color: playerColor,
-                player_x: null,
-                player_y: null
-            })
-        );
+        const player: Player = {
+            id: myId,
+            color: playerColor,
+            player_direction: 0,
+            player_velocity: 0
+        };
+
+        controllPlayer(player);
+        inRoomIds.push(myId);
+        ws.send(JSON.stringify(player));
     });
 
 export { app };
