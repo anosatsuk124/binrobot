@@ -3,7 +3,7 @@ import { ws } from './websocket';
 import { v4 as uuidv4 } from 'uuid';
 
 const app = new PIXI.Application({
-    width: 400,
+    width: 380,
     height: 300,
     backgroundColor: 0xaaaaaa,
     resolution: window.devicePixelRatio || 1
@@ -34,7 +34,7 @@ const spawnPlayer = (color: string | undefined) => {
     tank.y = 40;
     player.addChild(tank);
 
-    player.scale.x = player.scale.y = 0.5;
+    player.scale.x = player.scale.y = 0.15;
 
     // Listen for animate update
     app.ticker.add((delta: number) => {
