@@ -11,7 +11,7 @@ const app = new PIXI.Application({
 
 interface Player {
     id: string;
-    color: string | undefined;
+    color: string;
     player_direction: number;
     player_velocity: number;
     x: number;
@@ -105,7 +105,7 @@ document
 
         const player: Player = {
             id: myId,
-            color: playerColor,
+            color: playerColor!,
             player_direction: 0,
             player_velocity: 0,
             x: 0,
