@@ -4,7 +4,7 @@ Command APIs are APIs that controls your bot. They defined as the ASCII characte
 
 ## How to use this
 
-If there are any library for the languages you want to use, communicate with this game main process through STDIO.
+If there are not any library for the languages you want to use, communicate with this game main process through STDIO.
 
 ## Officailly supported languages
 
