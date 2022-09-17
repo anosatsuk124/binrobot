@@ -1,5 +1,5 @@
 import './style.css';
-import { app } from './app';
+import app, { renderer } from './app';
 
 import { open } from '@tauri-apps/api/dialog';
 import { emit } from '@tauri-apps/api/event';
@@ -17,4 +17,4 @@ document
         }
     });
 
-document.querySelector<HTMLDivElement>('#app')!.appendChild(app.view);
+document.querySelector<HTMLDivElement>('#app')!.appendChild(renderer(app));
