@@ -11,10 +11,8 @@ export const updateContainer = (
         const currentPlayer = container.container;
         game.ticker.addOnce((delta: number) => {
             if (
-                !(
-                    currentPlayer.x + currentPlayer.width < game.screen.width ||
-                    currentPlayer.y + currentPlayer.height < game.screen.height
-                )
+                currentPlayer.x + currentPlayer.width < game.screen.width &&
+                currentPlayer.y + currentPlayer.height < game.screen.height
             ) {
                 switch (direction) {
                     case 'left':

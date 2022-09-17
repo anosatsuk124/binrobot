@@ -4,6 +4,13 @@ import * as PIXI from 'pixi.js';
 import { playerColor } from '../menu/mod';
 import { Player, Container } from './types';
 import { updateContainer, initPlayerContainer } from './container';
+import {
+    moveDown,
+    moveLeft,
+    moveRight,
+    moveUp,
+    setVelocity
+} from './command/mod';
 
 const inRoomContainers: Array<Container> = new Array();
 

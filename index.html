@@ -8,17 +8,19 @@
     </head>
     <body>
         <div id="app"></div>
-        <div id="settings">
-            <label for="player-select"> Choose your player. </label>
-            <select name="players" id="player-select">
-                <option value="">-- Please select a pleyer. --</option>
-                <option value="red">Red Tank</option>
-                <option value="dark">Dark Tank</option>
-                <option value="green">Green Tank</option>
-                <option value="sand">Sand Tank</option>
-                <option value="blue">Blue Tank</option>
-            </select>
-            <button id="open-dialog">Select an executable file</button>
+        <div id="menu">
+            <div id="settings">
+                <label for="player-select"> Choose your player. </label>
+                <select name="players" id="player-select">
+                    <option value="">-- Please select a pleyer. --</option>
+                    <option value="red">Red Tank</option>
+                    <option value="dark">Dark Tank</option>
+                    <option value="green">Green Tank</option>
+                    <option value="sand">Sand Tank</option>
+                    <option value="blue">Blue Tank</option>
+                </select>
+                <button id="open-dialog">Select an executable file</button>
+            </div>
         </div>
         <button id="start">Start!</button>
         <button onclick="{location.reload();}">Reload</button>
