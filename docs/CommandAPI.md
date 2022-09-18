@@ -22,22 +22,22 @@ If there are not any library for the languages you want to use, communicate with
 
 **Return value**: `{ success: 'SUCCESS' }` ('SUCCESS': bool) means whether it can move left.
 
-**Input Value**: `MOVE LEFT VELOCITY 'VELOCITY'` ('VELOCITY': number) means the velocity moving left.
+**Input Value**: `MOVE LEFT 'VELOCITY'` ('VELOCITY': number) means the velocity moving left.
 
 #### Moving right
 
 **Return value**: `{ success: 'SUCCESS'` }` ('SUCCESS': bool) means whether it can move right.
 
-**Input Value**: `MOVE RIGHT VELOCITY 'VELOCITY'` ('VELOCITY': number) means the velocity moving right.
+**Input Value**: `MOVE RIGHT 'VELOCITY'` ('VELOCITY': number) means the velocity moving right.
 
 #### Moving up
 
 **Return value**: `{ success: 'SUCCESS' }` ('SUCCESS': bool) means whether it can move up.
 
-**Input Value**: `MOVE LEFT VELOCITY 'VELOCITY'` ('VELOCITY': number) means the velocity moving up.
+**Input Value**: `MOVE LEFT 'VELOCITY'` ('VELOCITY': number) means the velocity moving up.
 
 #### Moving down
 
 **Return value**: `{ success: 'SUCCESS' }` ('SUCCESS': bool) means whether it can move down.
 
-**Input Value**: `MOVE LEFT VELOCITY 'VELOCITY'` ('VELOCITY': number) means the velocity moving down.
+**Input Value**: `MOVE LEFT 'VELOCITY'` ('VELOCITY': number) means the velocity moving down.
