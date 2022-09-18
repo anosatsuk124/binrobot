@@ -1,34 +1,43 @@
-use std::{str::FromStr, string::ParseError};
+use std::{io::Write, process::Child, str::FromStr};
 
 use serde::{Deserialize, Serialize};
 use tauri::Manager;
 
-#[derive(Clone, Copy, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 pub enum CommandAPI {
     Move { direction: Direction, velocity: f64 },
 }
 
-#[derive(Clone, Copy, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 pub enum Direction {
+    #[serde(rename = "left")]
     Left,
+    #[serde(rename = "right")]
     Right,
+    #[serde(rename = "up")]
     Up,
+    #[serde(rename = "down")]
     Down,
 }
 
 impl CommandAPI {
-    fn execute(self, app: tauri::App) -> tauri::Result<()> {
+    pub fn execute(self, app: &tauri::AppHandle, command: &mut Child) -> tauri::Result<()> {
         match self {
             Self::Move {
                 direction,
                 velocity,
-            } => app.emit_all(
-                "command-api-move",
-                Self::Move {
-                    direction,
-                    velocity,
-                },
-            )?,
+            } => {
+                app.emit_all(
+                    "command-api-move",
+                    Self::Move {
+                        direction,
+                        velocity,
+                    },
+                )?;
+
+                let command_stdin = command.stdin.as_mut().expect("Couldn't get STDIN");
+                writeln!(command_stdin, "{{ success: true }}").expect("Couldn't write to STDIN");
+            }
         }
 
         Ok(())
@@ -77,7 +86,7 @@ impl FromStr for Direction {
             "LEFT" => Ok(Direction::Left),
             "RIGHT" => Ok(Direction::Right),
             "UP" => Ok(Direction::Up),
-            "Down" => Ok(Direction::Down),
+            "DOWN" => Ok(Direction::Down),
             _ => Err(CommandAPIParseError),
         }
     }

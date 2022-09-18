@@ -1,4 +1,5 @@
 [workspace]
 members = [
-    "src-tauri"
+    "src-tauri",
+    "example/example-robot"
 ]

@@ -4,13 +4,7 @@ import * as PIXI from 'pixi.js';
 import { playerColor } from '../menu/mod';
 import { Player, Container } from './types';
 import { updateContainer, initPlayerContainer } from './container';
-import {
-    moveDown,
-    moveLeft,
-    moveRight,
-    moveUp,
-    setVelocity
-} from './command/mod';
+import APIListener from './api';
 
 const inRoomContainers: Array<Container> = new Array();
 
@@ -46,6 +40,8 @@ const init = (game: PIXI.Application) => {
     const playerContainer = initPlayerContainer(game, player);
     inRoomContainers.push(playerContainer);
     ws.send(JSON.stringify(player));
+
+    APIListener(player);
 
     update(game);
 };

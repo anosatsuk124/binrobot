@@ -16,10 +16,10 @@ export const updateContainer = (
             ) {
                 switch (direction) {
                     case 'left':
-                        currentPlayer.x += velocity * delta;
+                        currentPlayer.x -= velocity * delta;
                         break;
                     case 'right':
-                        currentPlayer.x -= velocity * delta;
+                        currentPlayer.x += velocity * delta;
                         break;
                     case 'up':
                         currentPlayer.y -= velocity * delta;
