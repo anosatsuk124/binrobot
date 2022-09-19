@@ -41,19 +41,21 @@ export const initPlayerContainer = (
     const color = player.color;
 
     const texture = (() => {
-        if (color == 'red') {
-            return PIXI.Texture.from('/tank_red.png');
-        } else if (color == 'blue') {
-            return PIXI.Texture.from('/tank_blue.png');
-        } else if (color == 'dark') {
-            return PIXI.Texture.from('/tank_dark.png');
-        } else if (color == 'green') {
-            return PIXI.Texture.from('/tank_green.png');
-        } else if (color == 'sand') {
-            return PIXI.Texture.from('/tank_sand.png');
+        console.log('color', color);
+        switch (color) {
+            case 'red':
+                return PIXI.Texture.from('/tank_red.png');
+            case 'blue':
+                return PIXI.Texture.from('/tank_blue.png');
+            case 'dark':
+                return PIXI.Texture.from('/tank_dark.png');
+            case 'green':
+                return PIXI.Texture.from('/tank_green.png');
+            case 'sand':
+                return PIXI.Texture.from('/tank_sand.png');
+            default:
+                return PIXI.Texture.from('/tank_red.png');
         }
-
-        return PIXI.Texture.from('/tank_red.png');
     })();
     const tank = new PIXI.Sprite(texture);
     tank.anchor.set(0.5);

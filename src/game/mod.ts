@@ -1,24 +1,22 @@
 import { ws } from '../websocket';
-import { v4 as uuidv4 } from 'uuid';
 import * as PIXI from 'pixi.js';
-import { playerColor } from '../menu/mod';
 import { Player, Container } from './types';
 import { updateContainer, initPlayerContainer } from './container';
 import APIListener from './api';
+import { Settings } from '../app';
 
-const inRoomContainers: Array<Container> = new Array();
+const init = (game: PIXI.Application, settings: Settings) => {
+    const inRoomContainers: Array<Container> = new Array();
 
-const myId = uuidv4();
-const player: Player = {
-    id: myId,
-    color: playerColor!,
-    direction: null,
-    velocity: 0,
-    x: 0,
-    y: 0
-};
+    const player: Player = {
+        id: settings.id,
+        color: settings.color,
+        direction: null,
+        velocity: 0,
+        x: 0,
+        y: 0
+    };
 
-const init = (game: PIXI.Application) => {
     ws.onmessage = async (e) => {
         const text = await e.data.text();
         const player_object: Player = JSON.parse(text);
@@ -50,8 +48,8 @@ const update = (game: PIXI.Application) => {
     window.requestAnimationFrame(() => update(game));
 };
 
-const gameMain = (game: PIXI.Application) => {
-    window.requestAnimationFrame(() => init(game));
+const gameMain = (game: PIXI.Application, settings: Settings) => {
+    window.requestAnimationFrame(() => init(game, settings));
 };
 
 export default gameMain;

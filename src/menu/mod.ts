@@ -1,22 +1,23 @@
-import { invoke } from '@tauri-apps/api';
 import { open } from '@tauri-apps/api/dialog';
 
 const menu = document.querySelector<HTMLDivElement>('#menu');
+const settings = menu?.querySelector<HTMLDivElement>('#settings');
 
-const playerColor = menu
-    ?.querySelector<HTMLDivElement>('#settings')
-    ?.querySelector<HTMLSelectElement>('#player-select')?.value;
+const playerColor = () =>
+    settings?.querySelector<HTMLSelectElement>('#player-select')?.value ??
+    'red';
 
-menu?.querySelector<HTMLDivElement>('#settings')
+let execCommandPath: string | Array<string> | null = null;
+settings
     ?.querySelector<HTMLButtonElement>('#open-dialog')
     ?.addEventListener('click', async () => {
-        const execCommandPath = await open({
+        const path = await open({
             multiple: false
         });
 
-        if (execCommandPath != null) {
-            invoke('main_handler', { path: execCommandPath });
+        if (path != null) {
+            execCommandPath = path;
         }
     });
 
-export { playerColor };
+export { playerColor, execCommandPath };
